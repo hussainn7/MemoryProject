@@ -5,6 +5,14 @@
 {% block body %}
     <div class="container-fluid memory">
 
+        {# Precompute valid photo archive early for reuse (main photo fallback + section) #}
+        {% set validPhotoArchive = [] %}
+        {% for photo in memory.photoArhive %}
+            {% if photo.photo is not empty and photo.photo != memory.mainPhoto %}
+                {% set validPhotoArchive = validPhotoArchive|merge([photo]) %}
+            {% endif %}
+        {% endfor %}
+
         {% if memory.qrUrl is defined %}
         <section class="container my-4">
             <img src="{{ memory.qrUrl|e('html_attr') }}"
@@ -24,7 +32,14 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="photo ratio ratio-1x1 rounded overflow-hidden bg-dark-subtle">
-                                <img class="memory--photo w-100 h-100" src="{{ asset('img/' ~ memory.mainPhoto|default('')) }}" alt="memory" style="object-fit:cover">
+                                {% set mainPhotoSrc =
+                                    memory.mainPhoto
+                                        ? asset('img/' ~ memory.mainPhoto)
+                                        : (validPhotoArchive is not empty
+                                            ? asset('img/' ~ validPhotoArchive[0].photo)
+                                            : asset('assets/images/users/profile.jpg'))
+                                %}
+                                <img class="memory--photo w-100 h-100" src="{{ mainPhotoSrc }}" alt="memory" style="object-fit:cover">
                             </div>
                         </div>
                         <div class="col-md-9 d-flex flex-column">
@@ -53,9 +68,7 @@
                                     <a href="#wordsMemory" class="btn waves-effect waves-light btn-dark btn-sm">{{ 'label.data.wordsMemory'|trans }}</a>
                                 {% endif %}
 
-                                {% if memory.photoArhive is not empty %}
-                                    <a href="#photoArhive" class="btn waves-effect waves-light btn-dark btn-sm">{{ 'label.data.photoarhive'|trans }}</a>
-                                {% endif %}
+                                <a href="#photoArhive" class="btn waves-effect waves-light btn-dark btn-sm">{{ 'label.data.photoarhive'|trans }}</a>
 
                                 {% if memory.linksMemory is not empty %}
                                     <a href="#linksMemory" class="btn waves-effect waves-light btn-dark btn-sm">{{ 'label.data.linksMemory'|trans }}</a>
@@ -122,45 +135,42 @@
         {% endif %}
 
 
-
-
-        {% if memory.photoArhive is not empty  %}
-            <div class="card w-100 my-4" id="photoArhive">
-                <div class="card-header bg-secondary">
-                    <h4 class="mb-0 text-white text-uppercase">{{ 'label.data.photoarhive'|trans }}</h4>
-                </div>
-                <div class="card-body p-4">
-
-                        <div id="carouselExample" class="carousel slide carousel-dark">
-                            <div class="carousel-inner">
-
-                                {% for photo in memory.photoArhive %}
-
-                                    <div class="carousel-item {% if loop.first %}active{% endif %}">
-                                        <img src="{{ asset('img/' ~ photo.photo) }}"
-                                             class="memory--photoArhive-photo d-block" alt="photo">
-                                    </div>
-
-                                {% endfor %}
-
-                            </div>
-
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
-                                    data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Далее</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
-                                    data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden"> Назад </span></button>
+        <div class="card w-100 my-4" id="photoArhive">
+            <div class="card-header bg-secondary">
+                <h4 class="mb-0 text-white text-uppercase">{{ 'label.data.photoarhive'|trans }}</h4>
+            </div>
+            <div class="card-body p-4">
+                {% if validPhotoArchive is not empty %}
+                    <div id="carouselExample" class="carousel slide carousel-dark">
+                        <div class="carousel-inner">
+                            {% for photo in validPhotoArchive %}
+                                <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                    <img src="{{ asset('img/' ~ photo.photo) }}"
+                                         class="memory--photoArhive-photo d-block w-100" alt="photo"
+                                         style="max-height:520px; width:100%; object-fit:contain; background:rgba(0,0,0,.05);">
+                                </div>
+                            {% endfor %}
                         </div>
-
-
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Далее</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden"> Назад </span>
+                        </button>
                     </div>
+                {% else %}
+                    <div class="alert alert-secondary mb-0">Фотографии пока не добавлены</div>
+                {% endif %}
+                
+                {# Upload element for adding more photos #}
+                <div class="mt-4">
+                    <input type="hidden" class="js--uuid" value="{{ uuid }}" />
+                    <div id="js--upload-person-photo-arhive"></div>
                 </div>
             </div>
-        {% endif %}
+        </div>
 
 
         {% if  memory.linksMemory is not empty  %}
@@ -190,7 +200,6 @@
             </div>
         {% endif %}
 
-
         {% if memory.burialPlace is not empty %}
             <div class="card w-100 my-4" id="burialPlace">
                 <div class="card-header bg-secondary text-uppercase">
@@ -198,8 +207,13 @@
                 </div>
                 <div class="card-body p-4 memory--burialPlace">
                     <div class="memory--burialPlace-map mb-3" id="mapBurialPlace"
-                         data-lng="{{ memory.burialPlace is not empty ? memory.burialPlace[0].lng : '37.554263' }}"
-                         data-lat="{{ memory.burialPlace is not empty ? memory.burialPlace[0].lat : '55.724596' }}"
+                         data-lng="{% if memory.burialPlace is not empty and memory.burialPlace|length > 0 and memory.burialPlace|first.lng is not null and memory.burialPlace|first.lng is not empty %}{{ memory.burialPlace|first.lng }}{% else %}37.554263{% endif %}"
+                         data-lat="{% if memory.burialPlace is not empty and memory.burialPlace|length > 0 and memory.burialPlace|first.lat is not null and memory.burialPlace|first.lat is not empty %}{{ memory.burialPlace|first.lat }}{% else %}55.724596{% endif %}"
+                         data-address="{% if memory.burialPlace is not empty and memory.burialPlace|length > 0 and memory.burialPlace|first.adress is not null and memory.burialPlace|first.adress is not empty %}{{ memory.burialPlace|first.adress|e('html_attr') }}{% else %}{% endif %}"
+                         data-first-name="{{ memory.firstName|default('')|e('html_attr') }}"
+                         data-last-name="{{ memory.lastName|default('')|e('html_attr') }}"
+                         data-patronymic="{{ memory.patronymic|default('')|e('html_attr') }}"
+                         data-debug-coords="{% if memory.burialPlace is not empty and memory.burialPlace|length > 0 %}lat:{{ memory.burialPlace|first.lat }},lng:{{ memory.burialPlace|first.lng }}{% else %}default{% endif %}"
                          style="height: 400px; width: 100%; border: 1px solid #ddd; border-radius: 8px;"></div>
                     <div class="mb-3">
                         <button type="button" id="getDirectionsBtn" class="btn btn-primary btn-sm">
@@ -210,7 +224,7 @@
                         </button>
                     </div>
                     <p class="lead font-bold mb-2">{{ 'label.data.burialPlace.adress'|trans }}</p>
-                    <p class="lead text-black memory--burialPlace-adress">{{ memory.burialPlace is not empty ? memory.burialPlace[0].adress : 'Адрес не указан' }}</p>
+                    <p class="lead text-black memory--burialPlace-adress">{% if memory.burialPlace is not empty and memory.burialPlace|length > 0 and memory.burialPlace|first.adress is not empty %}{{ memory.burialPlace|first.adress }}{% else %}Адрес не указан{% endif %}</p>
                 </div>
             </div>
         {% endif %}
@@ -225,20 +239,46 @@
                    class="btn waves-effect waves-light btn-dark js--send-change-memory-link"
                     data-uuid="{{ uuid|default('')}}"
                 >{{ 'label.data.change_information_link'|trans }}</a>
+
+                <button type="button" class="btn btn-outline-primary ms-2" data-bs-toggle="modal" data-bs-target="#changeRequestModal">
+                    Предложить изменения / Фото
+                </button>
             </div>
         </div>
 
+        {% include 'frontend/person/_modal_change_request.html.twig' %}
     </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <script>
+        // ✅ CRITICAL: Set these BEFORE person-form.js loads
+        // Calculate validPhotoArchive count (exclude main photo from archive)
+        {% set validPhotoArchiveCount = 0 %}
+        {% for photo in memory.photoArhive %}
+            {% if photo.photo is not empty and photo.photo != memory.mainPhoto %}
+                {% set validPhotoArchiveCount = validPhotoArchiveCount + 1 %}
+            {% endif %}
+        {% endfor %}
+        
+        window.currentArchiveCount = {{ validPhotoArchiveCount }};
+        window.memoryIsExtended = {{ memory.isExtended ? 'true' : 'false' }};
+        window.photoExtensionPrice = {{ photo_extension_price|default(500) }};
+        
+        console.log('🔧 Page loaded with:', {
+            currentArchiveCount: window.currentArchiveCount,
+            memoryIsExtended: window.memoryIsExtended,
+            photoExtensionPrice: window.photoExtensionPrice,
+        });
+        
         $(function () {
             // Initialize burial place map on memory page
-            initBurialPlaceMap();
+            // COMMENTED OUT: Map initialization disabled to prevent doubling
+            // initBurialPlaceMap();
         });
 
+        /* COMMENTED OUT: Map disabled on memory page
         function initBurialPlaceMap() {
             const mapElement = document.getElementById('mapBurialPlace');
             if (!mapElement) return;
@@ -249,42 +289,216 @@
                 return;
             }
 
-            const lat = parseFloat(mapElement.getAttribute('data-lat'));
-            const lng = parseFloat(mapElement.getAttribute('data-lng'));
+            // Set flag immediately to prevent race conditions
+            window.burialPlaceMapInitialized = true;
 
-            // Check if we have valid coordinates
-            const hasValidCoords = lat && lng && !isNaN(lat) && !isNaN(lng);
+            // (Leaflet fallback handled later)
+
+            const latAttr = mapElement.getAttribute('data-lat');
+            const lngAttr = mapElement.getAttribute('data-lng');
+            const addressAttr = mapElement.getAttribute('data-address') || '';
+            const firstNameAttr = mapElement.getAttribute('data-first-name') || '';
+            const lastNameAttr = mapElement.getAttribute('data-last-name') || '';
+            const patronymicAttr = mapElement.getAttribute('data-patronymic') || '';
+
+            console.log('🔍 Burial place map raw data attributes:', {
+                latAttr: latAttr,
+                lngAttr: lngAttr,
+                addressAttr: addressAttr,
+                rawLat: typeof latAttr,
+                rawLng: typeof lngAttr
+            });
+
+            const decodeHtml = (value) => {
+                if (!value) {
+                    return '';
+                }
+                const textarea = document.createElement('textarea');
+                textarea.innerHTML = value;
+                return textarea.value;
+            };
+            const storedAddress = decodeHtml(addressAttr);
+            const firstName = decodeHtml(firstNameAttr);
+            const lastName = decodeHtml(lastNameAttr);
+            const patronymic = decodeHtml(patronymicAttr);
+            
+            // Parse coordinates - handle both string and number inputs
+            // Also handle empty strings, null, undefined, and "0" values
+            const latStr = latAttr ? String(latAttr).trim() : '';
+            const lngStr = lngAttr ? String(lngAttr).trim() : '';
+            const lat = latStr && latStr !== '' && latStr !== '0' ? parseFloat(latStr) : NaN;
+            const lng = lngStr && lngStr !== '' && lngStr !== '0' ? parseFloat(lngStr) : NaN;
+
+            console.log('📍 Parsed coordinates:', { 
+                lat, 
+                lng, 
+                latIsValid: !Number.isNaN(lat) && lat !== 0,
+                lngIsValid: !Number.isNaN(lng) && lng !== 0,
+                storedAddress 
+            });
+
+            // Check if we have valid coordinates (not NaN, not 0, and within reasonable bounds)
+            const hasValidCoords = !Number.isNaN(lat) && !Number.isNaN(lng) && 
+                                   lat !== 0 && lng !== 0 &&
+                                   lat >= -90 && lat <= 90 && 
+                                   lng >= -180 && lng <= 180;
             const defaultLat = 55.724596; // Moscow coordinates as default
             const defaultLng = 37.554263;
 
             const finalLat = hasValidCoords ? lat : defaultLat;
             const finalLng = hasValidCoords ? lng : defaultLng;
 
+            console.log('🗺️ Final map coordinates:', { 
+                finalLat, 
+                finalLng, 
+                hasValidCoords,
+                usingDefaults: !hasValidCoords
+            });
+
+            const unknownAddressLabel = 'Адрес не указан';
+            const addressElement = document.querySelector('.memory--burialPlace-adress');
+            const nameParts = [lastName, firstName, patronymic].map(part => part ? part.trim() : '').filter(Boolean);
+            const personLabel = nameParts.join(' ').trim() || 'Место захоронения';
+
+            let currentAddress = storedAddress.trim();
+
+            const sanitize = (value) => {
+                if (!value) {
+                    return '';
+                }
+                if (typeof ymaps !== 'undefined' && ymaps.util && ymaps.util.escapeHtml) {
+                    return ymaps.util.escapeHtml(value);
+                }
+                const div = document.createElement('div');
+                div.textContent = value;
+                return div.innerHTML;
+            };
+
+            const buildBalloonContent = (address) => {
+                const safeName = sanitize(personLabel);
+                const safeAddress = sanitize(address);
+                return safeAddress ? `${safeName}<br>${safeAddress}` : safeName;
+            };
+
+            const updateAddress = (address) => {
+                const cleanedAddress = address && address.trim() ? address.trim() : '';
+                currentAddress = cleanedAddress;
+                if (addressElement) {
+                    addressElement.textContent = cleanedAddress || unknownAddressLabel;
+                }
+                mapElement.dataset.address = cleanedAddress;
+            };
+
             // Clear any existing content in the map container
             mapElement.innerHTML = '';
 
-            ymaps.ready(function () {
+            // Wait for Yandex Maps to load (it's loaded in base template)
+            const waitForYandexMaps = (attempts = 0) => {
+                if (typeof ymaps !== 'undefined' && typeof ymaps.ready === 'function') {
+                    // Yandex Maps is loaded, initialize the map
+                    ymaps.ready(function () {
+                        initializeYandexMap();
+                    });
+                } else if (attempts < 15) {
+                    // Wait up to 3 seconds for Yandex Maps to load (15 attempts * 200ms)
+                    setTimeout(() => waitForYandexMaps(attempts + 1), 200);
+                } else {
+                    // Fallback to Leaflet if Yandex Maps doesn't load
+                    console.warn('Yandex Maps failed to load, using Leaflet fallback');
+                    initializeLeafletFallback();
+                }
+            };
+
+            const initializeLeafletFallback = () => {
+                const showFallback = () => {
+                    $('#mapBurialPlace').html('<div class="alert alert-warning p-3"><i class="fas fa-exclamation-triangle me-2"></i>Карта недоступна</div>');
+                };
+
+                const ensureLeaflet = () => new Promise((resolve, reject) => {
+                    const css = document.createElement('link');
+                    css.rel = 'stylesheet';
+                    css.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+                    css.integrity = 'sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=';
+                    css.crossOrigin = '';
+                    document.head.appendChild(css);
+
+                    const script = document.createElement('script');
+                    script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+                    script.integrity = 'sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=';
+                    script.crossOrigin = '';
+                    script.onload = () => resolve();
+                    script.onerror = () => reject();
+                    document.body.appendChild(script);
+                });
+
+                ensureLeaflet().then(() => {
+                    try {
+                        const map = L.map('mapBurialPlace').setView([finalLat, finalLng], hasValidCoords ? 15 : 10);
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+                        if (hasValidCoords) {
+                            const marker = L.marker([finalLat, finalLng]).addTo(map);
+                            const popupHtml = personLabel + (currentAddress ? '<br>' + currentAddress : '');
+                            marker.bindPopup(popupHtml).openPopup();
+                            window.burialPlacePlacemarkView = marker;
+                        }
+                        window.burialPlaceMapView = map;
+                        window.burialPlaceMapInitialized = true;
+                    } catch (e) {
+                        console.error('Leaflet map fallback failed:', e);
+                        showFallback();
+                    }
+                }).catch(() => showFallback());
+            };
+
+            const initializeYandexMap = () => {
                 try {
+                    console.log('🗺️ Initializing Yandex map with center:', [finalLat, finalLng]);
+                    
                     const map = new ymaps.Map('mapBurialPlace', {
                         center: [finalLat, finalLng],
                         zoom: hasValidCoords ? 15 : 10,
                         controls: ['zoomControl', 'fullscreenControl']
                     });
 
+                    let placemark = null;
+
+                    // Always create a placemark if we have coordinates (even if using defaults)
                     if (hasValidCoords) {
-                        const placemark = new ymaps.Placemark([finalLat, finalLng], {
-                            hintContent: 'Место захоронения',
-                            balloonContent: '{{ memory.firstName }} {{ memory.lastName }}<br>{{ memory.burialPlace is not empty ? memory.burialPlace[0].adress : "Адрес не указан" }}'
+                        console.log('📍 Creating placemark at:', [finalLat, finalLng]);
+                        placemark = new ymaps.Placemark([finalLat, finalLng], {
+                            hintContent: sanitize(currentAddress || personLabel),
+                            balloonContent: buildBalloonContent(currentAddress)
                         }, {
                             preset: 'islands#redIcon',
                             iconColor: '#dc3545'
                         });
 
                         map.geoObjects.add(placemark);
+                        console.log('✅ Placemark added successfully');
+
+                        if (!currentAddress) {
+                            ymaps.geocode([finalLat, finalLng]).then(function (res) {
+                                const geoObject = res.geoObjects.get(0);
+                                const foundAddress = geoObject ? geoObject.getAddressLine() : '';
+
+                                if (foundAddress) {
+                                    updateAddress(foundAddress);
+                                    placemark.properties.set('hintContent', sanitize(foundAddress));
+                                    placemark.properties.set('balloonContent', buildBalloonContent(foundAddress));
+                                }
+                            }).catch(function (error) {
+                                console.warn('Unable to determine burial address:', error);
+                            });
+                        } else {
+                            updateAddress(currentAddress);
+                        }
                     }
 
-                    // Mark as initialized to prevent duplicates
-                    window.burialPlaceMapInitialized = true;
+                    // Expose map instances for debugging/support tools
+                    window.burialPlaceMapView = map;
+                    if (placemark) {
+                        window.burialPlacePlacemarkView = placemark;
+                    }
 
                     // Get directions button - only show if we have valid burial coordinates
                     if (hasValidCoords) {
@@ -323,8 +537,48 @@
                     console.error('Burial place map initialization failed:', error);
                     $('#mapBurialPlace').html('<div class="alert alert-warning p-3"><i class="fas fa-exclamation-triangle me-2"></i>Карта недоступна</div>');
                 }
-            });
+            };
+
+            // Start waiting for Yandex Maps to load
+            waitForYandexMaps();
         }
+        */
+    </script>
+
+    <script>
+        (function() {
+            const form = document.getElementById('changeRequestForm');
+            if (!form) return;
+
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const btns = form.querySelectorAll('button');
+                btns.forEach(b => b.disabled = true);
+                try {
+                    const data = new FormData(form);
+                    const res = await fetch('{{ path('person_submit_change_request', { uuid: uuid }) }}', {
+                        method: 'POST',
+                        body: data
+                    });
+                    const json = await res.json().catch(() => ({ success: false }));
+                    if (!res.ok || json.success !== true) {
+                        alert(json.message || 'Не удалось отправить заявку. Попробуйте позже.');
+                        return;
+                    }
+                    alert('Заявка отправлена. Владелец страницы и администратор получат уведомление.');
+                    const modalEl = document.getElementById('changeRequestModal');
+                    if (modalEl) {
+                        const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                        modal.hide();
+                    }
+                    form.reset();
+                } catch (err) {
+                    alert('Ошибка сети. Попробуйте позже.');
+                } finally {
+                    btns.forEach(b => b.disabled = false);
+                }
+            });
+        })();
     </script>
 
 

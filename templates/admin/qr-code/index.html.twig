@@ -101,7 +101,39 @@
                 ajax: {
                     url: '{{ path('admin_qrcode_table_index') }}',
                     type: 'post',
-                    data: {}
+                    data: {},
+                    error: function(xhr, error, thrown) {
+                        console.error('DataTables AJAX Error Details:', {
+                            status: xhr.status,
+                            statusText: xhr.statusText,
+                            responseText: xhr.responseText,
+                            error: error,
+                            thrown: thrown
+                        });
+                        
+                        let errorMessage = 'Ошибка загрузки данных';
+                        try {
+                            const response = JSON.parse(xhr.responseText);
+                            if (response.error) {
+                                errorMessage = response.error;
+                            }
+                            if (response.message) {
+                                errorMessage += ': ' + response.message;
+                            }
+                        } catch (e) {
+                            errorMessage = xhr.responseText || errorMessage;
+                        }
+                        
+                        if (xhr.status === 403) {
+                            alert('Доступ запрещён. Требуется роль менеджера или администратора.');
+                        } else if (xhr.status === 400) {
+                            alert('Ошибка запроса: ' + errorMessage + '\n\nПроверьте консоль для подробностей.');
+                        } else if (xhr.status === 500) {
+                            alert('Ошибка сервера: ' + errorMessage + '\n\nПроверьте консоль для подробностей.');
+                        } else {
+                            alert('Ошибка: ' + errorMessage);
+                        }
+                    }
                 },
                 aLengthMenu: [
                     [100,9999999],

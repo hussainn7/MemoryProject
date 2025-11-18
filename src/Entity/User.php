@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\EntityInterface\HistoryInterface;
+use App\Entity\PaymentTransaction;
 use App\Repository\UserRepository;
 use App\Traits\Entity\EntityDatesTrait;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -88,6 +89,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, History
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: QrCode::class)]
     private Collection $qrCodeClient;
 
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, options: ['default' => '0.00'])]
+    private string $balance = '0.00';
+
+    /**
+     * @var Collection<int, PaymentTransaction>
+     */
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: PaymentTransaction::class, cascade: ['persist'])]
+    private Collection $paymentTransactions;
+
 
     public function __construct()
     {
@@ -96,6 +106,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, History
         }
         $this->qrCodes = new ArrayCollection();
         $this->qrCodeClient = new ArrayCollection();
+        $this->paymentTransactions = new ArrayCollection();
     }
     /**
      * A visual identifier that represents this user.
@@ -292,6 +303,62 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, History
             // set the owning side to null (unless already changed)
             if ($qrCodeClient->getClient() === $this) {
                 $qrCodeClient->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getBalance(): float
+    {
+        return (float) $this->balance;
+    }
+
+    public function setBalance(float $balance): self
+    {
+        $this->balance = number_format($balance, 2, '.', '');
+
+        return $this;
+    }
+
+    public function increaseBalance(float $amount): self
+    {
+        $this->setBalance($this->getBalance() + $amount);
+
+        return $this;
+    }
+
+    public function decreaseBalance(float $amount): self
+    {
+        $newBalance = $this->getBalance() - $amount;
+        $this->setBalance($newBalance < 0 ? 0.0 : $newBalance);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PaymentTransaction>
+     */
+    public function getPaymentTransactions(): Collection
+    {
+        return $this->paymentTransactions;
+    }
+
+    public function addPaymentTransaction(PaymentTransaction $paymentTransaction): self
+    {
+        if (!$this->paymentTransactions->contains($paymentTransaction)) {
+            $this->paymentTransactions->add($paymentTransaction);
+            $paymentTransaction->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePaymentTransaction(PaymentTransaction $paymentTransaction): self
+    {
+        if ($this->paymentTransactions->removeElement($paymentTransaction)) {
+            if ($paymentTransaction->getUser() === $this) {
+                $paymentTransaction->setUser(null);
             }
         }
 

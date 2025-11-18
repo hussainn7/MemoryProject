@@ -4,11 +4,78 @@
 
 {% block body %}
     <div class="container-fluid">
-        <div class="card gredient-info-bg m-t-0 m-b-0">
-            <div class="card-body">
-                <h4 class="card-title text-white">Добро пожаловать</h4>
-                <h5 class="card-subtitle text-white op-5">в панель управлением проекта</h5>
+        <div class="row">
+            <div class="col-12">
+                <div class="card gredient-info-bg m-t-0 m-b-0">
+                    <div class="card-body">
+                        <h4 class="card-title text-white">Добро пожаловать</h4>
+                        <h5 class="card-subtitle text-white op-5">в панель управлением проекта</h5>
+                    </div>
+                </div>
             </div>
+
+            <div class="col-md-6 mt-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Баланс аккаунта</h5>
+                        <p class="card-text text-muted mb-1">Используйте баланс для активации услуг и QR-кодов.</p>
+                        <div class="d-flex align-items-baseline gap-2">
+                            <span class="display-5 fw-semibold">{{ app.user.balance|number_format(2, '.', ' ') }}</span>
+                            <span class="text-muted">₽</span>
+                        </div>
+                        <a href="{{ path('admin_payments_index') }}" class="btn btn-primary mt-3">
+                            <i class="fa fa-wallet me-1"></i> Управлять балансом
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            {% if isAdmin %}
+            <div class="col-md-6 mt-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="card-title mb-0">Последние заявки на изменения</h5>
+                            <a href="{{ path('admin_change_requests_index') }}" class="btn btn-sm btn-outline-primary">
+                                Все заявки
+                            </a>
+                        </div>
+                        {% if changeRequests is not empty %}
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                    <tr>
+                                        <th>Дата</th>
+                                        <th>Отправитель</th>
+                                        <th>Статус</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for r in changeRequests %}
+                                        {% if r is iterable %}
+                                            <tr>
+                                                <td>{{ r.createdAt ? r.createdAt|date('d.m.Y H:i') : '—' }}</td>
+                                                <td>{{ r.requesterName ?? '—' }}</td>
+                                                <td><span class="badge bg-secondary">—</span></td>
+                                            </tr>
+                                        {% else %}
+                                            <tr>
+                                                <td>{{ r.createdAt ? r.createdAt|date('d.m.Y H:i') : '—' }}</td>
+                                                <td>{{ r.requesterName }}</td>
+                                                <td><span class="badge bg-info">{{ r.status }}</span></td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <p class="text-muted mb-0">Заявок пока нет</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

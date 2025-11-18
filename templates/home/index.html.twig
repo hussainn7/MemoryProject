@@ -1,355 +1,279 @@
+{# templates/home/index.html.twig #}
 {% extends 'front-base.html.twig' %}
 
 {% block title %}Небесный Архив - Вечная память близких{% endblock %}
-
 {% block body_id 'homepage' %}
 
 {% block body %}
-    <!-- Hero Section -->
-    <div class="hero-section bg-primary text-white py-5">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <h1 class="display-4 fw-bold mb-4">Небесный Архив</h1>
-                    <p class="lead mb-4">
-                        Создайте вечную цифровую память о ваших близких. QR-коды, интерактивные страницы памяти,
-                        семейные фотоальбомы и многое другое для сохранения воспоминаний навсегда.
-                    </p>
-                    <div class="d-flex gap-3 mb-4">
-                        <a href="{{ path('security_login') }}" class="btn btn-light btn-lg px-4">
-                            <i class="fas fa-sign-in-alt me-2"></i>Войти
-                        </a>
-                        <a href="{{ path('company_register') }}" class="btn btn-outline-light btn-lg px-4">
-                            <i class="fas fa-building me-2"></i>Для компаний
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="hero-image text-center">
-                        <i class="fas fa-cloud-upload-alt fa-5x text-white-50 mb-3"></i>
-                        <p class="text-white-50">Ваши воспоминания в безопасности</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="na-hero">
+  <div class="na-hero__topbar container">
+    <div class="d-flex align-items-center justify-content-between">
+      <div class="na-logo fw-semibold">
+        <span class="na-logo__mark">НА</span>
+        <span class="na-logo__text">Небесный Архив</span>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <a class="na-lang small" href="#">RU</a>
+        <a class="na-lang small" href="#">EN</a>
+        <a class="na-chip small" href="{{ path('company_register') }}">РЕГИСТРАЦИЯ</a>
+        <a class="na-chip small" href="{{ path('security_login') }}">ВОЙТИ</a>
+      </div>
     </div>
+  </div>
 
-    <!-- Features Section -->
-    <section class="features-section py-5 bg-light">
-        <div class="container">
-            <div class="row text-center mb-5">
-                <div class="col-12">
-                    <h2 class="display-5 fw-bold text-primary mb-3">Возможности платформы</h2>
-                    <p class="lead text-muted">Все инструменты для создания достойной памяти о близких</p>
-                </div>
-            </div>
-
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm hover-shadow">
-                        <div class="card-body text-center p-4">
-                            <div class="feature-icon mb-3">
-                                <i class="fas fa-qrcode fa-3x text-primary"></i>
-                            </div>
-                            <h5 class="card-title fw-bold">QR-коды памяти</h5>
-                            <p class="card-text text-muted">
-                                Каждый памятник получает уникальный QR-код, который ведет на персональную страницу памяти
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm hover-shadow">
-                        <div class="card-body text-center p-4">
-                            <div class="feature-icon mb-3">
-                                <i class="fas fa-images fa-3x text-success"></i>
-                            </div>
-                            <h5 class="card-title fw-bold">Фотогалерея</h5>
-                            <p class="card-text text-muted">
-                                Создавайте богатые фотоальбомы с воспоминаниями, важными моментами и семейными фотографиями
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm hover-shadow">
-                        <div class="card-body text-center p-4">
-                            <div class="feature-icon mb-3">
-                                <i class="fas fa-map-marked-alt fa-3x text-info"></i>
-                            </div>
-                            <h5 class="card-title fw-bold">Интерактивная карта</h5>
-                            <p class="card-text text-muted">
-                                Укажите место захоронения на интерактивной карте для удобства посещения близкими
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm hover-shadow">
-                        <div class="card-body text-center p-4">
-                            <div class="feature-icon mb-3">
-                                <i class="fas fa-book-open fa-3x text-warning"></i>
-                            </div>
-                            <h5 class="card-title fw-bold">Биография и воспоминания</h5>
-                            <p class="card-text text-muted">
-                                Расскажите историю жизни, добавьте воспоминания от родных и близких
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm hover-shadow">
-                        <div class="card-body text-center p-4">
-                            <div class="feature-icon mb-3">
-                                <i class="fas fa-share-alt fa-3x text-danger"></i>
-                            </div>
-                            <h5 class="card-title fw-bold">Социальные сети</h5>
-                            <p class="card-text text-muted">
-                                Поделитесь ссылками на страницы в социальных сетях и других ресурсах
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm hover-shadow">
-                        <div class="card-body text-center p-4">
-                            <div class="feature-icon mb-3">
-                                <i class="fas fa-palette fa-3x text-secondary"></i>
-                            </div>
-                            <h5 class="card-title fw-bold">Персонализация</h5>
-                            <p class="card-text text-muted">
-                                Выберите уникальную тему оформления для каждой страницы памяти
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div class="na-hero__inner container">
+    <div class="row g-0 align-items-start">
+      <!-- LEFT -->
+      <div class="col-lg-6 position-relative">
+        <div class="na-copy p-4 p-md-5">
+          <h1 class="na-title mb-3">
+            ОСТАВЬТЕ ЖИВЫЕ<br/>
+            ВОСПОМИНАНИЯ<br/>
+            О ВАШИХ РОДНЫХ<br/>
+            В ВЕЧНОСТИ
+          </h1>
+          <p class="na-sub mb-0">
+            воспоминания, улыбки и переживания<br/>
+            вновь оживут. Ощутите это волшебство<br/>
+            и пронесите память о своих близких через<br/>
+            цифровые технологии.
+          </p>
         </div>
-    </section>
 
-    <!-- Company Features Section -->
-    <section class="company-features-section py-5 bg-light">
-        <div class="container">
-            <div class="row text-center mb-5">
-                <div class="col-12">
-                    <h2 class="display-5 fw-bold text-primary mb-3">Для ритуальных компаний</h2>
-                    <p class="lead text-muted">Профессиональные инструменты для управления QR-кодами памяти</p>
-                </div>
-            </div>
-
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-body text-center p-4">
-                            <div class="feature-icon mb-3">
-                                <i class="fas fa-calculator fa-3x text-info"></i>
-                            </div>
-                            <h5 class="card-title fw-bold">Учёт баланса</h5>
-                            <p class="card-text text-muted">
-                                Полный контроль над финансовыми операциями, пополнение баланса и отслеживание расходов
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-body text-center p-4">
-                            <div class="feature-icon mb-3">
-                                <i class="fas fa-qrcode fa-3x text-success"></i>
-                            </div>
-                            <h5 class="card-title fw-bold">Генерация QR-кодов</h5>
-                            <p class="card-text text-muted">
-                                Создание QR-кодов для памятников с автоматическим списанием оплаты за каждую генерацию
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-body text-center p-4">
-                            <div class="feature-icon mb-3">
-                                <i class="fas fa-history fa-3x text-warning"></i>
-                            </div>
-                            <h5 class="card-title fw-bold">История генераций</h5>
-                            <p class="card-text text-muted">
-                                Полная история всех созданных QR-кодов с датами, стоимостью и статусом платежей
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-center mt-4">
-                <a href="{{ path('company_register') }}" class="btn btn-primary btn-lg px-5">
-                    <i class="fas fa-building me-2"></i>Зарегистрировать компанию
-                </a>
-            </div>
+        <div class="na-panel na-panel--ghost mt-3 ms-4 me-4 me-lg-5">
+          <p class="mb-0 small">
+            С тех пор, как мы теряем близких,<br/>
+            остаётся ненавязчивое стремление<br/>
+            сохранить их память. Мы все мечтаем<br/>
+            о том, чтобы те, кто ушёл, остались<br/>
+            с нами хотя бы на мгновение.
+          </p>
         </div>
-    </section>
 
-    <!-- How It Works Section -->
-    <section class="how-it-works-section py-5">
-        <div class="container">
-            <div class="row text-center mb-5">
-                <div class="col-12">
-                    <h2 class="display-5 fw-bold text-primary mb-3">Как это работает</h2>
-                    <p class="lead text-muted">Простой процесс создания вечной памяти</p>
-                </div>
-            </div>
-
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="step-card text-center">
-                        <div class="step-number mb-3">
-                            <span class="badge bg-primary rounded-circle fs-4 p-3">1</span>
-                        </div>
-                        <h5 class="fw-bold mb-3">Войдите в систему</h5>
-                        <p class="text-muted">
-                            Авторизуйтесь и получите доступ ко всем возможностям платформы
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="step-card text-center">
-                        <div class="step-number mb-3">
-                            <span class="badge bg-primary rounded-circle fs-4 p-3">2</span>
-                        </div>
-                        <h5 class="fw-bold mb-3">Создайте страницу</h5>
-                        <p class="text-muted">
-                            Заполните информацию о близком человеке, добавьте фотографии и воспоминания
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="step-card text-center">
-                        <div class="step-number mb-3">
-                            <span class="badge bg-primary rounded-circle fs-4 p-3">3</span>
-                        </div>
-                        <h5 class="fw-bold mb-3">Получите QR-код</h5>
-                        <p class="text-muted">
-                            Разместите QR-код на памятнике для доступа к цифровой памяти
-                        </p>
-                    </div>
-                </div>
-            </div>
+        <div class="na-panel mt-3 ms-4 me-4 me-lg-5">
+          <p class="mb-0 small">
+            Предлагаем вам уникальную возмож­ность: создайте QR-код, который,<br/>
+            сканируя на могиле, открывает<br/>
+            доступ ко всему тому, что вы хотели<br/>
+            бы сказать нашим любимым.
+          </p>
         </div>
-    </section>
+      </div>
 
-    <!-- CTA Section -->
-    <section class="cta-section bg-primary text-white py-5">
-        <div class="container text-center">
-            <h2 class="display-5 fw-bold mb-4">Начните создавать вечную память</h2>
-            <p class="lead mb-4">
-                Присоединяйтесь к тысячам семей, которые уже сохранили воспоминания о своих близких
-            </p>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <a href="{{ path('security_login') }}" class="btn btn-light btn-lg w-100">
-                        <i class="fas fa-sign-in-alt me-2"></i>Войти в систему
-                    </a>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <a href="{{ path('company_register') }}" class="btn btn-primary btn-lg w-100">
-                        <i class="fas fa-building me-2"></i>Регистрация компании
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+      <!-- RIGHT -->
+      <div class="col-lg-6 position-relative">
+        <div class="na-angel">
+          <img src="{{ asset('assets/images/angel.png') }}" alt="Ангел" class="na-angel__img"/>
 
-    <!-- Footer -->
-    <footer class="footer bg-dark text-white py-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h5 class="fw-bold mb-3">Небесный Архив</h5>
-                    <p class="text-muted mb-0">
-                        Платформа для создания цифровой памяти о близких людях
-                    </p>
-                </div>
-                <div class="col-md-3">
-                    <h6 class="fw-bold mb-3">Платформа</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="{{ path('features') }}" class="text-muted text-decoration-none">Возможности</a></li>
-                        <li><a href="#how-it-works" class="text-muted text-decoration-none">Как это работает</a></li>
-                        <li><a href="{{ path('about') }}" class="text-muted text-decoration-none">О нас</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h6 class="fw-bold mb-3">Поддержка</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="#help" class="text-muted text-decoration-none">Помощь</a></li>
-                        <li><a href="#contact" class="text-muted text-decoration-none">Контакты</a></li>
-                        <li><a href="#privacy" class="text-muted text-decoration-none">Конфиденциальность</a></li>
-                    </ul>
-                </div>
-            </div>
-            <hr class="my-4">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <p class="text-muted mb-0">
-                        &copy; {{ 'now'|date('Y') }} Небесный Архив. Все права защищены.
-                    </p>
-                </div>
-            </div>
+          <div class="na-ground" aria-hidden="true"></div>
+          <div class="na-halo" aria-hidden="true"></div>
+
+          <div class="na-badge" aria-hidden="true">
+            <div class="na-badge__ring"></div>
+            <div class="na-badge__center">100%</div>
+            <div class="na-badge__text">ГАРАНТИЯ КАЧЕСТВА</div>
+          </div>
+
+          <button class="na-play" type="button" aria-label="Как это работает">
+            <i class="fa-solid fa-play"></i>
+          </button>
         </div>
-    </footer>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }}
-    <style>
-        .hero-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 60vh;
-            display: flex;
-            align-items: center;
-        }
+  {{ parent() }}
+  <style>
+    :root{
+      --na-blue-1:#2b3d53;
+      --na-blue-2:#111b27;
+      --na-ink:#dfe7f2;
+      --na-ink-weak:#bfc9d7;
+      --na-outline:rgba(255,255,255,.65);
+      --na-chip:#3b4e6a;
+    }
 
-        .features-section .card:hover {
-            transform: translateY(-5px);
-            transition: transform 0.3s ease;
-        }
+    /* ---------- HERO ---------- */
+    .na-hero{
+      position:relative;
+      min-height:100vh;
+      background:
+        radial-gradient(1350px 900px at 82% 2%, #3b516b 0%, var(--na-blue-1) 36%, var(--na-blue-2) 100%);
+      color:#fff;
+      overflow:hidden;
+      padding-bottom: 40px;
+    }
+    .na-hero::before{
+      content:""; position:absolute; inset:0; pointer-events:none;
+      background:
+        radial-gradient(1200px 420px at 50% 100%, rgba(0,0,0,.35), transparent 60%),
+        linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.22) 100%);
+      mix-blend-mode: multiply; opacity:.52;
+    }
+    .na-hero::after{
+      content:""; position:absolute; inset:0; pointer-events:none;
+      background: repeating-linear-gradient(0deg, rgba(255,255,255,.012), rgba(255,255,255,.012) 2px, transparent 2px, transparent 4px);
+      opacity:.22;
+    }
 
-        .hover-shadow:hover {
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
-        }
+    .na-hero__topbar{ padding:24px 0 8px; }
 
-        .step-card {
-            padding: 2rem 1rem;
-        }
+    .na-logo__mark{
+      display:inline-block; font-weight:800; letter-spacing:.06em;
+      border:1px solid var(--na-outline); padding:.15rem .35rem; border-radius:.2rem;
+      margin-right:.45rem;
+    }
+    .na-logo__text{opacity:.9;}
 
-        .step-number .badge {
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto;
-        }
+    .na-lang{
+      color:var(--na-ink); text-decoration:none; background:rgba(255,255,255,.06);
+      padding:.25rem .5rem; border-radius:.25rem;
+    }
+    .na-lang:hover{color:#fff;}
+    .na-chip{
+      color:#fff; text-decoration:none; background:var(--na-chip);
+      padding:.35rem .7rem; border-radius:.35rem; letter-spacing:.03em;
+    }
 
-        .cta-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
+    .na-hero__inner{ padding-top: 8px; }
 
-        .footer {
-            margin-top: 0;
-        }
+    /* ---------- LEFT COPY (ensures big title fits) ---------- */
+    .na-copy{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:.5rem; box-shadow: 0 10px 26px rgba(0,0,0,.28);
+      margin: 0 1.25rem 0 1.25rem; max-width: 540px;
+      backdrop-filter: blur(1px);
+      padding-top: 2.2rem !important; padding-bottom: 2.2rem !important;
+    }
 
-        .feature-icon {
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-    </style>
+    .na-title{
+      font-family:"Times New Roman", Georgia, serif;
+      font-weight:800;
+      line-height:1.02;
+      /* Smaller cap, auto scales with viewport; keeps within the card on 1280–1600px screens */
+      font-size: clamp(26px, 3.55vw, 42px);
+      letter-spacing:-0.01em;
+      text-transform:uppercase;
+      color:#fff;
+      text-shadow: 0 2px 6px rgba(0,0,0,.25);
+      margin-bottom: 1rem;
+    }
+    .na-sub{
+      color:var(--na-ink-weak);
+      font-size:clamp(13px,1.05vw,16px);
+      line-height:1.6;
+    }
+
+    .na-panel{
+      background: rgba(0,0,0,.22);
+      border:1px solid var(--na-outline);
+      border-radius:.5rem;
+      padding:.9rem 1.1rem;
+      color:var(--na-ink);
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      max-width: 540px;
+    }
+    .na-panel--ghost{ background: rgba(0,0,0,.16); }
+
+    /* Slightly tighter at medium desktops so the heading never wraps out of the card */
+    @media (max-width: 1440px){
+      .na-title{ font-size: clamp(24px, 3.2vw, 40px); }
+    }
+    @media (max-width: 1280px){
+      .na-title{ font-size: clamp(22px, 3.0vw, 38px); }
+    }
+
+    /* ---------- RIGHT / ANGEL ---------- */
+    .na-angel{
+      position:relative; min-height:640px; margin-top: 8px;
+      display:flex; align-items:flex-end; justify-content:center;
+      transform: translateX(-18px);
+    }
+    .na-angel__img{
+      width:min(560px, 95%); height:auto;
+      background: transparent;
+      filter: drop-shadow(0 34px 54px rgba(0,0,0,.65));
+      user-select:none; pointer-events:none;
+    }
+
+    /* Soft "inner" rim lights on both sides to smooth edges */
+    .na-angel::before,
+    .na-angel::after{
+      content:""; position:absolute; top:14%; bottom:8%; width:120px; pointer-events:none;
+      background: radial-gradient(60px 280px at 50% 50%, rgba(255,255,255,.24), rgba(255,255,255,0) 70%);
+      filter: blur(8px);
+      mix-blend-mode: screen;
+      opacity:.55;
+    }
+    .na-angel::before{ left: 8%; }   /* left inner glow  */
+    .na-angel::after { right: 3%; }  /* right inner glow */
+
+    /* a very soft ground shadow under the base */
+    .na-angel .na-ground{
+      position:absolute; left:50%; bottom:4%;
+      width: 52%; height: 24px; transform: translateX(-50%);
+      background: radial-gradient(60% 100% at 50% 50%, rgba(0,0,0,.45), rgba(0,0,0,0) 70%);
+      filter: blur(6px); opacity:.6; pointer-events:none;
+    }
+
+    /* halo behind head (stays) */
+    .na-halo{
+      position:absolute; top: 11%; right: 18%;
+      width: 260px; height: 260px; border-radius:50%;
+      background:
+        radial-gradient(circle at center, rgba(255,255,255,.15) 0 30%, rgba(255,255,255,0) 31% 100%),
+        repeating-radial-gradient(circle at center, rgba(255,255,255,.08) 0 2px, rgba(255,255,255,0) 3px 12px);
+      filter: blur(.2px);
+      opacity:.5; pointer-events:none;
+    }
+
+    /* play button */
+    .na-play{
+      position:absolute; top: 21%; right: 24%;
+      width:46px; height:46px; display:grid; place-items:center; border-radius:50%;
+      border:2px solid rgba(255,255,255,.85); background: rgba(0,0,0,.35); color:#fff;
+      box-shadow:0 6px 18px rgba(0,0,0,.4), inset 0 0 0 6px rgba(255,255,255,.12);
+      transform: translate(50%, -50%);
+    }
+    .na-play i{ font-size:14px; margin-left:2px; }
+
+    /* 100% badge */
+    .na-badge{
+      position:absolute; bottom: 22%; left: 7%;
+      width:130px; height:130px; display:flex; align-items:center; justify-content:center; pointer-events:none;
+    }
+    .na-badge__ring{
+      position:absolute; inset:0; border-radius:50%;
+      border:10px solid rgba(255,255,255,.22);
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.55), 0 10px 25px rgba(0,0,0,.35);
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.15), rgba(0,0,0,.15));
+    }
+    .na-badge__center{
+      position:relative; z-index:2; font-weight:800; font-size:28px; color:#fff;
+      text-shadow:0 2px 6px rgba(0,0,0,.35);
+    }
+    .na-badge__text{
+      position:absolute; bottom:-18px; left:50%; transform:translateX(-50%);
+      width:180px; text-align:center; font-size:11px; letter-spacing:.18em; color:var(--na-ink); opacity:.9;
+      white-space:nowrap;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 1199.98px){
+      .na-angel{ transform:none; }
+      .na-halo{ right: 12%; }
+    }
+    @media (max-width: 991.98px){
+      .na-copy, .na-panel{ margin-left:.75rem; margin-right:.75rem; max-width:none; }
+      .na-angel{ min-height:520px; }
+      .na-badge{ left: 8%; bottom: 16%; width:112px; height:112px;}
+      .na-badge__center{ font-size:24px;}
+      .na-play{ top: 19%; right: 18%; }
+    }
+  </style>
 {% endblock %}

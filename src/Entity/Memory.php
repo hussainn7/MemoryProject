@@ -76,6 +76,9 @@ class Memory
     #[ORM\ManyToOne(inversedBy: 'memories')]
     private ?MemoryThema $thema = null;
 
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
+    private bool $isExtended = false;
+
     public function __construct()
     {
         $this->epitaph = new ArrayCollection();
@@ -367,6 +370,18 @@ class Memory
     public function setThema(?MemoryThema $thema): static
     {
         $this->thema = $thema;
+
+        return $this;
+    }
+
+    public function isExtended(): bool
+    {
+        return $this->isExtended;
+    }
+
+    public function setIsExtended(bool $isExtended): static
+    {
+        $this->isExtended = $isExtended;
 
         return $this;
     }

@@ -51,6 +51,7 @@ security:
 
     access_control:
         - { path: ^/dashboard,           roles: [ROLE_ADMIN,ROLE_MEMBER,ROLE_MANAGER]} #, requires_channel: https }
+        - { path: ^/account/payments,    roles: ROLE_MEMBER } #, requires_channel: https }
         - { path: ^/login,           roles: PUBLIC_ACCESS} #, requires_channel: https }
         - { path: ^/person,           roles: PUBLIC_ACCESS} #, requires_channel: https }
         - { path: ^/person/edit,           roles: ROLE_MEMBER} #, requires_channel: https }

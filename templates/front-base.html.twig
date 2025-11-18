@@ -22,8 +22,8 @@
 
 
     <!-- Yandex Maps API - Get your API key from https://developer.tech.yandex.ru/services/ -->
-    {# TODO: Replace with your real Yandex Maps API key in .env file #}
-    <script src="https://api-maps.yandex.ru/2.1/?apikey={{ app.request.server.get('YANDEX_MAPS_API_KEY') ?: 'demo' }}&lang=ru_RU" type="text/javascript"></script>
+    {# Using the same API key as person-form.js for consistency #}
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=2e1510a2-a865-4d6e-aae3-839289d6bf95&lang=ru_RU" type="text/javascript"></script>
 
 </head>
 <body id="{% block body_id %}bg-option-1{% endblock %}">

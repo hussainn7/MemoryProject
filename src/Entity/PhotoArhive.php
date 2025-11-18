@@ -25,9 +25,6 @@ class PhotoArhive
     #[ORM\ManyToOne(inversedBy: 'photoArhive')]
     private ?Memory $memory = null;
 
-    #[ORM\ManyToOne(inversedBy: 'photoArchive')]
-    private ?Memory $memoryEntity = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -81,15 +78,5 @@ class PhotoArhive
         return $this;
     }
 
-    public function getMemoryEntity(): ?Memory
-    {
-        return $this->memoryEntity;
-    }
-
-    public function setMemoryEntity(?Memory $memoryEntity): static
-    {
-        $this->memoryEntity = $memoryEntity;
-
-        return $this;
-    }
+    
 }

@@ -10,25 +10,40 @@ use App\Entity\User;
 use App\Repository\QrCodeRepository;
 use App\Repository\UserRepository;
 use DataTables\DataTablesInterface;
+use DataTables\Exception\DataTableException;
+use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+
+
 #[Route(path: '/admin/qrcode-table')]
-#[Security("is_granted('ROLE_MANAGER')")]
 class QrCodeTableController extends AbstractController
 {
+    public function __construct(
+        private readonly LoggerInterface $logger
+    ) {
+    }
+
     #[Route(path: '/', name: 'admin_qrcode_table_index')]
     public function index(
         Request $request,
         DataTablesInterface $datatables,
         TranslatorInterface $translator,
-        QrCodeRepository $qrCodeRepository
+        QrCodeRepository $qrCodeRepository,
+        \Symfony\Bundle\SecurityBundle\Security $security
     ): JsonResponse {
         try {
+            // Get current user
+            $currentUser = $security->getUser();
+            
+            // Check if user is admin/manager
+            $isAdmin = $security->isGranted('ROLE_MANAGER') || $security->isGranted('ROLE_ADMIN');
             // Build Configuration Array and send $result thru the compiler
             $columns = [
                 [
@@ -149,20 +164,57 @@ class QrCodeTableController extends AbstractController
 
             // $users = $usersRepository->softDeletesFilter(true)->findAll();
 
-            $request->request->add(['datatables' => [
-                'columns' => $columns,
-                'repository' => $qrCodeRepository, // ->activateSoftDeletesFilter(),
-            ]]);
+            // Use filtered repository for non-admin users
+            $repositoryToUse = $qrCodeRepository;
+            if (!$isAdmin && $currentUser) {
+                // For simple users, use the filtered query that shows only their QR codes
+                $request->request->add(['datatables' => [
+                    'columns' => $columns,
+                    'queryBuilder' => $qrCodeRepository->getQueryForDataTablesByCreator($currentUser),
+                ]]);
+            } else {
+                // For admins, show all QR codes
+                $request->request->add(['datatables' => [
+                    'columns' => $columns,
+                    'repository' => $qrCodeRepository, // ->activateSoftDeletesFilter(),
+                ]]);
+            }
 
             // Tell the DataTables service to process the request,
             // specifying ID of the required handler.
             $results = $datatables->handle($request, 'base');
 
             return $this->json($results);
+        } catch (DataTableException $e) {
+            // DataTables validation or processing error
+            $this->logger->error('DataTables error', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return $this->json([
+                'error' => 'Ошибка обработки запроса DataTables',
+                'message' => $e->getMessage()
+            ], 400);
         } catch (HttpException $e) {
             // In fact the line below returns 400 HTTP status person.
             // The message contains the error description.
-            return $this->json($e->getMessage(), $e->getStatusCode());
+            $this->logger->error('HTTP exception in DataTables', [
+                'message' => $e->getMessage(),
+                'code' => $e->getStatusCode()
+            ]);
+            return $this->json(['error' => $e->getMessage()], $e->getStatusCode());
+        } catch (\Throwable $e) {
+            // Catch any other exceptions and return a proper error response
+            $this->logger->error('Unexpected error in DataTables', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return $this->json([
+                'error' => 'Ошибка загрузки данных',
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ], 500);
         }
     }
 }

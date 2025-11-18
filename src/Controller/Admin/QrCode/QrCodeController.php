@@ -23,7 +23,6 @@ use Twig\Environment as TwigEnvironment;
 
 
 #[Route(path: '/admin/qr-code')]
-#[Security("is_granted('ROLE_MANAGER')")]
 class QrCodeController extends AbstractController
 {
 
@@ -54,7 +53,6 @@ class QrCodeController extends AbstractController
      * Creates a new QrCode entity.
      */
     #[Route(path: '/new/{token}', name: 'admin_qrcode_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_MANAGER')]
     public function new(Request $request, string $token): Response
     {
 
@@ -163,7 +161,6 @@ class QrCodeController extends AbstractController
      * Edit QrCode entity.
      */
     #[Route(path: '/edit/{id}', name: 'admin_qrcode_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_MANAGER')]
     public function edit(Request $request, QrCodeEntity $qrCode): Response
     {
 
@@ -198,7 +195,6 @@ class QrCodeController extends AbstractController
      * Delete QrCode in pdf.
      */
     #[Route(path: '/delete/{id}', name: 'admin_qrcode_delete', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_MANAGER')]
     public function delete(Request $request, QrCodeEntity $qrCode): Response
     {
 
@@ -211,5 +207,3 @@ class QrCodeController extends AbstractController
     }
 
 }
-
-

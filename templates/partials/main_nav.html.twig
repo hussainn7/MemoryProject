@@ -116,6 +116,11 @@
                         {#                            <i class="mdi mdi-shield-outline m-r-5 m-l-5"></i> {{ 'menu.change_password'|trans }} #}
                         {#                        </a> #}
                         <div class="dropdown-divider"></div>
+                        {% set paymentsRoute = (is_granted('ROLE_MANAGER') or is_granted('ROLE_ADMIN')) ? 'admin_payments_index' : 'front_payments_index' %}
+                        <a class="dropdown-item" href="{{ path(paymentsRoute) }}">
+                            <i class="fa fa-wallet m-r-5 m-l-5" aria-hidden="true"></i> {{ 'menu.payments'|trans }}
+                        </a>
+                        <div class="dropdown-divider"></div>
                         <div>
                             <a class="dropdown-item" href="{{ path('security_logout') }}">
                                 <i class="fa fa-power-off m-r-5 m-l-5"></i> {{ 'menu.logout'|trans }}

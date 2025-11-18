@@ -19,7 +19,33 @@ class QrCodeRepository extends ServiceEntityRepository implements DataTablesRepo
 
     public function getQueryForDataTables(): QueryBuilder
     {
-        return $this->createQueryBuilder('dt');
+        return $this->createQueryBuilder('dt')
+            ->leftJoin('dt.user', 'user')
+            ->addSelect('user')
+            ->leftJoin('dt.client', 'client')
+            ->addSelect('client')
+            ->leftJoin('dt.memory', 'memory')
+            ->addSelect('memory')
+            ->leftJoin('dt.status', 'status')
+            ->addSelect('status');
+    }
+
+    /**
+     * Get query for DataTables filtered by creator (user who created the QR code)
+     */
+    public function getQueryForDataTablesByCreator($creatorUser): QueryBuilder
+    {
+        return $this->createQueryBuilder('dt')
+            ->leftJoin('dt.user', 'user')
+            ->addSelect('user')
+            ->leftJoin('dt.client', 'client')
+            ->addSelect('client')
+            ->leftJoin('dt.memory', 'memory')
+            ->addSelect('memory')
+            ->leftJoin('dt.status', 'status')
+            ->addSelect('status')
+            ->where('dt.user = :creator')
+            ->setParameter('creator', $creatorUser);
     }
 
     public function checkLabel($label)

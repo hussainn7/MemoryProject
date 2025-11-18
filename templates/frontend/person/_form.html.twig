@@ -9,7 +9,7 @@
     <div class="card-body wizard-content">
         <h6 class="card-subtitle mb-3"></h6>
 
-        {{ form_start(form,{attr: attr|default({'class': 'js--person-form validation-wizard wizard-circle mt-5','data-type':'edit' })}) }}
+        {{ form_start(form,{attr: attr|default({'class': 'js--person-form validation-wizard wizard-circle mt-5','data-type':'create' })}) }}
         <!-- Step 1 -->
         <h6>{{ 'person.form.step1'|trans }}</h6>
         <section>
@@ -185,37 +185,15 @@
                     {{ 'label.person.burialPlace.map'|trans }}
                 </label>
 
-                <!-- Search and location controls -->
-                <div class="mb-3">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <input type="text" id="burialPlaceSearch" class="form-control"
-                                   placeholder="{{ 'label.burialPlace.search.placeholder'|trans }}"
-                                   style="border-radius: 4px 0 0 4px;">
-                        </div>
-                        <div class="col-md-4">
-                            <button type="button" id="searchBurialPlaceBtn" class="btn btn-secondary w-100"
-                                    style="border-radius: 0;">
-                                <i class="fas fa-search"></i> {{ 'label.burialPlace.search.button'|trans }}
-                            </button>
-                        </div>
-                    </div>
-                    <div class="mt-2">
-                        <button type="button" id="currentLocationBtn" class="btn btn-success btn-sm">
-                            <i class="fas fa-crosshairs"></i> {{ 'label.burialPlace.current_location'|trans }}
-                        </button>
-                        <small class="text-muted ms-2">{{ 'label.burialPlace.current_location.help'|trans }}</small>
-                    </div>
-                </div>
-
-                <!-- Map for editing burial place location - always available -->
-                <div id="mapPerson" class="mb-3" style="height: 400px; border: 1px solid #ddd; border-radius: 4px;"></div>
-
+                {% if form.burialPlace|length == 0 %}
+                    <div id="mapPerson" style="height: 400px; width: 100%; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 15px;"></div>
+                {% endif %}
                 <ul class="burialPlace"
-                    data-index="{{ form.burialPlace|length > 0 ? form.wordsMemory|last.vars.name + 1 : 0 }}"
+                    data-index="{{ form.burialPlace|length > 0 ? form.burialPlace|last.vars.name + 1 : 0 }}"
                     data-prototype="{{ form_widget(form.burialPlace.vars.prototype)|e('html_attr') }}">
                     {% for burialPlace in form.burialPlace %}
                         <li>
+                            <div id="mapPerson_{{ loop.index }}" style="height: 400px; width: 100%; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 15px;"></div>
                             {{ form_row(burialPlace.lat) }}
                             {{ form_row(burialPlace.lng) }}
                             {{ form_row(burialPlace.adress) }}
@@ -241,10 +219,21 @@
         <section>
             <div class="row m3-3">
                 <div class="row mb-3">
-                    {{ form_row(form.thema) }}
+                    {# Debug theme field #}
+                    {% set thema_field = form.thema %}
+                    <div class="col-12">
+                        {{ form_label(thema_field) }}
+                        {{ form_widget(thema_field, {
+                            'attr': {
+                                'class': 'form-select js--select-memory-thema form-control-md required',
+                                'data-placeholder': 'Выберите оформление страницы'
+                            }
+                        }) }}
+                        {{ form_errors(thema_field) }}
+                    </div>
                 </div>
                 <div class="row mb-3">
-                    <img class="js--preview-memory-bg" src="{{ asset('option-bg/v-1.jpg') }}"  alt="memory bg" />
+                    <img class="js--preview-memory-bg" src="/option-bg/v-1.jpg"  alt="memory bg" />
                 </div>
             </div>
         </section>

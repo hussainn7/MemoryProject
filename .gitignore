@@ -27,6 +27,7 @@ Thumbs.db
 /var/cache/
 /var/log/
 .env
+.env.local
 
 *.log*
 webpack.config.js

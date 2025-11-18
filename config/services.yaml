@@ -10,7 +10,10 @@ parameters:
     upload_directory: '%kernel.project_dir%/public/uploads'
     app.notifications.email_sender: no-reply@memory.ru
     app.notifications.email_sender_name: 'memory.ru'
+    app.notifications.admin_email: 'admin@memory.ru'
     files_directory: '%kernel.project_dir%/public/img'
+    files_requests_directory: '%kernel.project_dir%/public/img/requests'
+    photo_extension_price: 5000
     app_locales: ru
     app_countries: ru
     app_url : '%env(APP_URL)%'

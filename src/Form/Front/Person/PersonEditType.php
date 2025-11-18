@@ -125,6 +125,17 @@ class PersonEditType extends AbstractType
                 'choice_label' => function ($thema) {
                     return $thema->getThema();
                 },
+                'choice_attr' => function (MemoryThema $thema) {
+                    $rawLabel = (string) $thema->getThema();
+                    $themeDigits = preg_replace('/\D+/', '', $rawLabel);
+                    $previewSuffix = $themeDigits !== '' ? $themeDigits : null;
+
+                    return [
+                        'data-classname' => $thema->getClassname(),
+                        'data-theme-number' => $previewSuffix,
+                        'data-preview' => $previewSuffix ? sprintf('/option-bg/v-%s.jpg', $previewSuffix) : null,
+                    ];
+                },
                 'label' => 'label.person.thema',
                 'expanded' => false,
                 'multiple' => false,
