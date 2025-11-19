@@ -1,4 +1,3 @@
-{# templates/home/index.html.twig #}
 {% extends 'front-base.html.twig' %}
 
 {% block title %}Небесный Архив - Вечная память близких{% endblock %}
@@ -24,256 +23,452 @@
 
   <div class="na-hero__inner container">
     <div class="row g-0 align-items-start">
-      <!-- LEFT -->
-      <div class="col-lg-6 position-relative">
-        <div class="na-copy p-4 p-md-5">
-          <h1 class="na-title mb-3">
-            ОСТАВЬТЕ ЖИВЫЕ<br/>
-            ВОСПОМИНАНИЯ<br/>
-            О ВАШИХ РОДНЫХ<br/>
-            В ВЕЧНОСТИ
-          </h1>
-          <p class="na-sub mb-0">
-            воспоминания, улыбки и переживания<br/>
-            вновь оживут. Ощутите это волшебство<br/>
-            и пронесите память о своих близких через<br/>
-            цифровые технологии.
-          </p>
-        </div>
+      {# ---------- LEFT COLUMN ---------- #}
+      <div class="col-lg-6">
+        <div class="na-left">
 
-        <div class="na-panel na-panel--ghost mt-3 ms-4 me-4 me-lg-5">
-          <p class="mb-0 small">
-            С тех пор, как мы теряем близких,<br/>
-            остаётся ненавязчивое стремление<br/>
-            сохранить их память. Мы все мечтаем<br/>
-            о том, чтобы те, кто ушёл, остались<br/>
-            с нами хотя бы на мгновение.
-          </p>
-        </div>
+          {# top main marketing block #}
+          <div class="na-left-main">
+            <h1 class="na-left-main__title">
+              ПОВЫСЬТЕ<br/>
+              ПРОДАЖИ
+            </h1>
+            <p class="na-left-main__subtitle">
+              по изготовлению памятников,<br/>
+              предлагая дополнительную услугу<br/>
+              виртуальной страницы памяти<br/>
+              на памятнике.
+            </p>
 
-        <div class="na-panel mt-3 ms-4 me-4 me-lg-5">
-          <p class="mb-0 small">
-            Предлагаем вам уникальную возмож­ность: создайте QR-код, который,<br/>
-            сканируя на могиле, открывает<br/>
-            доступ ко всему тому, что вы хотели<br/>
-            бы сказать нашим любимым.
-          </p>
+            <div class="na-left-pill">
+              <span class="na-left-pill__number">5</span>
+              <span class="na-left-pill__text">
+                попробуйте и получите<br/>
+                пять бесплатных QR-кодов
+              </span>
+            </div>
+          </div>
+
+          {# secondary "Небесный архив" card #}
+          <div class="na-copy mt-4">
+            <h2 class="na-copy__title">НЕБЕСНЫЙ<br/>АРХИВ</h2>
+            <p class="na-copy__text">
+              Онлайн-сервис сохранения памяти о близких.
+              Наш сервис позволяет сохранять биографию,
+              фото, видео, координаты захоронения.
+            </p>
+            <p class="na-copy__text mb-0">
+              Создание страницы памяти происходит автоматически
+              при заполнении формы при первом переходе по QR-коду.
+              В дальнейшем QR-код служит ссылкой на страницу
+              памяти об ушедшем.
+            </p>
+          </div>
+
+          {# small quality badge text (optional) #}
+          <div class="na-quality mt-3">
+            100% гарантия&nbsp;качества и надёжности сервиса
+          </div>
         </div>
       </div>
 
-      <!-- RIGHT -->
+      {# ---------- RIGHT COLUMN / ANGEL ---------- #}
       <div class="col-lg-6 position-relative">
         <div class="na-angel">
-          <img src="{{ asset('assets/images/angel.png') }}" alt="Ангел" class="na-angel__img"/>
 
-          <div class="na-ground" aria-hidden="true"></div>
-          <div class="na-halo" aria-hidden="true"></div>
+          {# circle pattern behind angel #}
+          <img
+            src="{{ asset('images/circle.png') }}"
+            alt=""
+            class="na-angel__circle"
+            aria-hidden="true"
+          >
 
+          {# main statue #}
+          <img
+            src="{{ asset('assets/images/angel.png') }}"
+            alt="Ангел хранитель"
+            class="na-angel__img"
+          >
+
+          {# fog at the bottom of hero #}
+          <img
+            src="{{ asset('images/bottom-fog.png') }}"
+            alt=""
+            class="na-angel__fog"
+            aria-hidden="true"
+          >
+
+          {# 100% badge on the leg area #}
           <div class="na-badge" aria-hidden="true">
             <div class="na-badge__ring"></div>
             <div class="na-badge__center">100%</div>
             <div class="na-badge__text">ГАРАНТИЯ КАЧЕСТВА</div>
           </div>
 
+          {# play button near shoulder #}
           <button class="na-play" type="button" aria-label="Как это работает">
-            <i class="fa-solid fa-play"></i>
+            <img
+              src="{{ asset('images/play-button.png') }}"
+              alt=""
+              class="na-play__img"
+            >
           </button>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+  {# ---------- NEW SECTION: OPTION TWO ---------- #}
+  <section class="na-section-option">
+    <div class="container-fluid px-0">
+      <div class="na-option-visual">
+        <img
+          src="{{ asset('images/option-two.png') }}"
+          alt="Пример страницы памяти Небесного Архива"
+          class="na-option-visual__img"
+        >
+      </div>
+    </div>
+  </section>
 {% endblock %}
 
 {% block stylesheets %}
   {{ parent() }}
   <style>
     :root{
-      --na-blue-1:#2b3d53;
+      --na-blue-1:#314664;
       --na-blue-2:#111b27;
-      --na-ink:#dfe7f2;
-      --na-ink-weak:#bfc9d7;
-      --na-outline:rgba(255,255,255,.65);
+      --na-ink:#e4edf9;
+      --na-ink-weak:#c1ccdd;
+      --na-outline:rgba(255,255,255,.55);
       --na-chip:#3b4e6a;
     }
 
-    /* ---------- HERO ---------- */
+    /* ---------- HERO BACKGROUND ---------- */
     .na-hero{
       position:relative;
       min-height:100vh;
       background:
-        radial-gradient(1350px 900px at 82% 2%, #3b516b 0%, var(--na-blue-1) 36%, var(--na-blue-2) 100%);
+        radial-gradient(1400px 900px at 90% 5%, #516a8b 0%, var(--na-blue-1) 30%, var(--na-blue-2) 100%);
       color:#fff;
       overflow:hidden;
-      padding-bottom: 40px;
+      padding-bottom:40px;
+      isolation:isolate;
     }
     .na-hero::before{
       content:""; position:absolute; inset:0; pointer-events:none;
       background:
-        radial-gradient(1200px 420px at 50% 100%, rgba(0,0,0,.35), transparent 60%),
-        linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.22) 100%);
-      mix-blend-mode: multiply; opacity:.52;
+        radial-gradient(1100px 420px at 40% 100%, rgba(0,0,0,.4), transparent 60%),
+        linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.25) 100%);
+      mix-blend-mode:multiply; opacity:.6;
     }
     .na-hero::after{
       content:""; position:absolute; inset:0; pointer-events:none;
-      background: repeating-linear-gradient(0deg, rgba(255,255,255,.012), rgba(255,255,255,.012) 2px, transparent 2px, transparent 4px);
+      background:repeating-linear-gradient(0deg, rgba(255,255,255,.012), rgba(255,255,255,.012) 2px, transparent 2px, transparent 4px);
       opacity:.22;
     }
 
-    .na-hero__topbar{ padding:24px 0 8px; }
+    .na-hero__topbar{
+      padding:18px 0 10px;
+      position:relative;
+      z-index:20;
+    }
 
     .na-logo__mark{
-      display:inline-block; font-weight:800; letter-spacing:.06em;
-      border:1px solid var(--na-outline); padding:.15rem .35rem; border-radius:.2rem;
-      margin-right:.45rem;
+      display:inline-block;
+      font-weight:800;
+      letter-spacing:.06em;
+      border:1px solid var(--na-outline);
+      padding:.2rem .45rem;
+      border-radius:.25rem;
+      margin-right:.55rem;
+      background:rgba(0,0,0,.25);
     }
     .na-logo__text{opacity:.9;}
 
     .na-lang{
-      color:var(--na-ink); text-decoration:none; background:rgba(255,255,255,.06);
-      padding:.25rem .5rem; border-radius:.25rem;
+      color:var(--na-ink); text-decoration:none;
+      background:rgba(255,255,255,.06);
+      padding:.25rem .55rem;
+      border-radius:.25rem;
+      font-size:.8rem;
     }
     .na-lang:hover{color:#fff;}
     .na-chip{
-      color:#fff; text-decoration:none; background:var(--na-chip);
-      padding:.35rem .7rem; border-radius:.35rem; letter-spacing:.03em;
+      color:#fff; text-decoration:none;
+      background:var(--na-chip);
+      padding:.4rem .9rem;
+      border-radius:.5rem;
+      letter-spacing:.04em;
+      font-size:.8rem;
     }
 
-    .na-hero__inner{ padding-top: 8px; }
-
-    /* ---------- LEFT COPY (ensures big title fits) ---------- */
-    .na-copy{
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      border:1px solid rgba(255,255,255,.18);
-      border-radius:.5rem; box-shadow: 0 10px 26px rgba(0,0,0,.28);
-      margin: 0 1.25rem 0 1.25rem; max-width: 540px;
-      backdrop-filter: blur(1px);
-      padding-top: 2.2rem !important; padding-bottom: 2.2rem !important;
+    .na-hero__inner{
+      position:relative;
+      z-index:10;
+      padding-top:30px;
+      padding-bottom:30px;
     }
 
-    .na-title{
+    /* ---------- LEFT SIDE LAYOUT ---------- */
+    .na-left{
+      padding-left:1rem;
+      padding-right:2rem;
+      position:relative;
+      z-index:5;
+    }
+
+    .na-left-main{
+      margin-top:15px;
+    }
+    .na-left-main__title{
       font-family:"Times New Roman", Georgia, serif;
       font-weight:800;
-      line-height:1.02;
-      /* Smaller cap, auto scales with viewport; keeps within the card on 1280–1600px screens */
-      font-size: clamp(26px, 3.55vw, 42px);
-      letter-spacing:-0.01em;
+      font-size:clamp(32px,3.6vw,46px);
+      line-height:1;
+      letter-spacing:.03em;
       text-transform:uppercase;
-      color:#fff;
-      text-shadow: 0 2px 6px rgba(0,0,0,.25);
-      margin-bottom: 1rem;
+      margin-bottom:1.25rem;
+      text-shadow:0 2px 6px rgba(0,0,0,.35);
     }
-    .na-sub{
+    .na-left-main__subtitle{
+      margin:0 0 1.4rem;
+      font-size:clamp(14px,1rem,16px);
+      line-height:1.5;
       color:var(--na-ink-weak);
-      font-size:clamp(13px,1.05vw,16px);
-      line-height:1.6;
     }
 
-    .na-panel{
-      background: rgba(0,0,0,.22);
-      border:1px solid var(--na-outline);
-      border-radius:.5rem;
-      padding:.9rem 1.1rem;
-      color:var(--na-ink);
-      box-shadow: 0 10px 30px rgba(0,0,0,.35);
-      max-width: 540px;
+    .na-left-pill{
+      display:inline-flex;
+      align-items:center;
+      gap:.6rem;
+      padding:.6rem .9rem;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.55);
+      background:rgba(0,0,0,.18);
+      box-shadow:0 8px 22px rgba(0,0,0,.4);
     }
-    .na-panel--ghost{ background: rgba(0,0,0,.16); }
+    .na-left-pill__number{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:32px; height:32px;
+      border-radius:50%;
+      border:1px solid rgba(255,255,255,.8);
+      font-weight:700;
+      font-size:18px;
+    }
+    .na-left-pill__text{
+      font-size:12px;
+      line-height:1.35;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
 
-    /* Slightly tighter at medium desktops so the heading never wraps out of the card */
-    @media (max-width: 1440px){
-      .na-title{ font-size: clamp(24px, 3.2vw, 40px); }
+    .na-copy{
+      margin-top:32px;
+      max-width:520px;
+      padding:1.6rem 1.9rem 1.8rem;
+      background:linear-gradient(180deg, rgba(0,0,0,.38), rgba(0,0,0,.26));
+      border-radius:.8rem;
+      border:1px solid rgba(255,255,255,.16);
+      box-shadow:0 18px 40px rgba(0,0,0,.55);
+      backdrop-filter:blur(3px);
     }
-    @media (max-width: 1280px){
-      .na-title{ font-size: clamp(22px, 3.0vw, 38px); }
+    .na-copy__title{
+      font-family:"Times New Roman", Georgia, serif;
+      font-weight:800;
+      font-size:clamp(22px,2.1vw,28px);
+      line-height:1.1;
+      letter-spacing:.04em;
+      margin-bottom:1rem;
+    }
+    .na-copy__text{
+      font-size:14px;
+      line-height:1.55;
+      color:var(--na-ink-weak);
+      margin-bottom:.7rem;
+    }
+
+    .na-quality{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      color:rgba(255,255,255,.7);
+      padding-left:.2rem;
+      margin-top:16px;
     }
 
     /* ---------- RIGHT / ANGEL ---------- */
     .na-angel{
-      position:relative; min-height:640px; margin-top: 8px;
-      display:flex; align-items:flex-end; justify-content:center;
-      transform: translateX(-18px);
+      position:relative;
+      min-height:640px;
+      margin-top:10px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      z-index:3;
     }
+
+    .na-angel__circle{
+      position:absolute;
+      top:10%;
+      right:14%;
+      width:min(420px,72%);
+      height:auto;
+      opacity:.9;
+      pointer-events:none;
+      user-select:none;
+      z-index:2;
+    }
+
     .na-angel__img{
-      width:min(560px, 95%); height:auto;
-      background: transparent;
-      filter: drop-shadow(0 34px 54px rgba(0,0,0,.65));
-      user-select:none; pointer-events:none;
+      position:relative;
+      z-index:4;
+      width:min(540px,90%);
+      height:auto;
+      filter:drop-shadow(0 38px 60px rgba(0,0,0,.75));
+      user-select:none;
+      pointer-events:none;
     }
 
-    /* Soft "inner" rim lights on both sides to smooth edges */
-    .na-angel::before,
-    .na-angel::after{
-      content:""; position:absolute; top:14%; bottom:8%; width:120px; pointer-events:none;
-      background: radial-gradient(60px 280px at 50% 50%, rgba(255,255,255,.24), rgba(255,255,255,0) 70%);
-      filter: blur(8px);
-      mix-blend-mode: screen;
-      opacity:.55;
+    .na-angel__fog{
+      position:fixed;
+      bottom:0;
+      left:50%;
+      transform:translateX(-50%);
+      width:100vw;
+      min-width:100%;
+      height:auto;
+      max-height:45vh;
+      object-fit:cover;
+      object-position:center bottom;
+      opacity:.92;
+      pointer-events:none;
+      user-select:none;
+      z-index:1;
+      mask-image:linear-gradient(to top,
+        rgba(0,0,0,1) 0%,
+        rgba(0,0,0,1) 30%,
+        rgba(0,0,0,.9) 60%,
+        rgba(0,0,0,.5) 85%,
+        rgba(0,0,0,0) 100%
+      );
+      -webkit-mask-image:linear-gradient(to top,
+        rgba(0,0,0,1) 0%,
+        rgba(0,0,0,1) 30%,
+        rgba(0,0,0,.9) 60%,
+        rgba(0,0,0,.5) 85%,
+        rgba(0,0,0,0) 100%
+      );
+      -webkit-backface-visibility:hidden;
+      backface-visibility:hidden;
     }
-    .na-angel::before{ left: 8%; }   /* left inner glow  */
-    .na-angel::after { right: 3%; }  /* right inner glow */
 
-    /* a very soft ground shadow under the base */
-    .na-angel .na-ground{
-      position:absolute; left:50%; bottom:4%;
-      width: 52%; height: 24px; transform: translateX(-50%);
-      background: radial-gradient(60% 100% at 50% 50%, rgba(0,0,0,.45), rgba(0,0,0,0) 70%);
-      filter: blur(6px); opacity:.6; pointer-events:none;
+    /* badge */
+    .na-badge{
+      position:absolute;
+      bottom:20%;
+      left:6%;
+      width:130px;
+      height:130px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      pointer-events:none;
+      z-index:5;
     }
-
-    /* halo behind head (stays) */
-    .na-halo{
-      position:absolute; top: 11%; right: 18%;
-      width: 260px; height: 260px; border-radius:50%;
-      background:
-        radial-gradient(circle at center, rgba(255,255,255,.15) 0 30%, rgba(255,255,255,0) 31% 100%),
-        repeating-radial-gradient(circle at center, rgba(255,255,255,.08) 0 2px, rgba(255,255,255,0) 3px 12px);
-      filter: blur(.2px);
-      opacity:.5; pointer-events:none;
+    .na-badge__ring{
+      position:absolute;
+      inset:0;
+      border-radius:50%;
+      border:9px solid rgba(255,255,255,.26);
+      box-shadow:inset 0 0 0 2px rgba(255,255,255,.65), 0 10px 28px rgba(0,0,0,.6);
+      background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.18), rgba(0,0,0,.25));
+    }
+    .na-badge__center{
+      position:relative;
+      z-index:2;
+      font-weight:800;
+      font-size:26px;
+      color:#fff;
+      text-shadow:0 2px 6px rgba(0,0,0,.35);
+    }
+    .na-badge__text{
+      position:absolute;
+      bottom:-20px;
+      left:50%;
+      transform:translateX(-50%);
+      width:190px;
+      text-align:center;
+      font-size:11px;
+      letter-spacing:.18em;
+      color:var(--na-ink);
+      opacity:.9;
+      white-space:nowrap;
     }
 
     /* play button */
     .na-play{
-      position:absolute; top: 21%; right: 24%;
-      width:46px; height:46px; display:grid; place-items:center; border-radius:50%;
-      border:2px solid rgba(255,255,255,.85); background: rgba(0,0,0,.35); color:#fff;
-      box-shadow:0 6px 18px rgba(0,0,0,.4), inset 0 0 0 6px rgba(255,255,255,.12);
-      transform: translate(50%, -50%);
+      position:absolute;
+      top:23%;
+      right:18%;
+      width:78px;
+      height:78px;
+      padding:0;
+      border:none;
+      background:transparent;
+      transform:translate(45%, -45%);
+      z-index:5;
+      cursor:pointer;
     }
-    .na-play i{ font-size:14px; margin-left:2px; }
-
-    /* 100% badge */
-    .na-badge{
-      position:absolute; bottom: 22%; left: 7%;
-      width:130px; height:130px; display:flex; align-items:center; justify-content:center; pointer-events:none;
-    }
-    .na-badge__ring{
-      position:absolute; inset:0; border-radius:50%;
-      border:10px solid rgba(255,255,255,.22);
-      box-shadow: inset 0 0 0 2px rgba(255,255,255,.55), 0 10px 25px rgba(0,0,0,.35);
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.15), rgba(0,0,0,.15));
-    }
-    .na-badge__center{
-      position:relative; z-index:2; font-weight:800; font-size:28px; color:#fff;
-      text-shadow:0 2px 6px rgba(0,0,0,.35);
-    }
-    .na-badge__text{
-      position:absolute; bottom:-18px; left:50%; transform:translateX(-50%);
-      width:180px; text-align:center; font-size:11px; letter-spacing:.18em; color:var(--na-ink); opacity:.9;
-      white-space:nowrap;
+    .na-play__img{
+      width:100%;
+      height:100%;
+      display:block;
     }
 
-    /* Responsive tweaks */
-    @media (max-width: 1199.98px){
-      .na-angel{ transform:none; }
-      .na-halo{ right: 12%; }
+    /* ---------- NEW SECTION: OPTION TWO ---------- */
+    .na-section-option{
+      position:relative;
+      padding:0;
+      background:linear-gradient(to bottom, #0c111a 0%, #05070b 100%);
+      overflow:hidden;
     }
-    @media (max-width: 991.98px){
-      .na-copy, .na-panel{ margin-left:.75rem; margin-right:.75rem; max-width:none; }
+
+    .na-option-visual{
+      position:relative;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      width:100%;
+    }
+    .na-option-visual__img{
+      width:100%;
+      max-width:100%;
+      height:auto;
+      display:block;
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width:1199.98px){
+      .na-left{ padding-right:1.5rem; }
+      .na-angel{ min-height:560px; }
+      .na-angel__circle{ right:10%; width:min(380px,78%); }
+    }
+    @media (max-width:991.98px){
+      .na-left{
+        padding-right:1rem;
+        padding-left:.75rem;
+        margin-bottom:32px;
+      }
       .na-angel{ min-height:520px; }
-      .na-badge{ left: 8%; bottom: 16%; width:112px; height:112px;}
-      .na-badge__center{ font-size:24px;}
-      .na-play{ top: 19%; right: 18%; }
+      .na-angel__circle{ top:8%; right:16%; }
+      .na-badge{ bottom:17%; left:10%; width:115px; height:115px; }
+      .na-badge__center{ font-size:22px; }
+      .na-play{ top:21%; right:15%; width:64px; height:64px; }
     }
   </style>
 {% endblock %}
