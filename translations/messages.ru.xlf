@@ -522,6 +522,22 @@
                 <source><![CDATA[payment.status.pending]]></source>
                 <target><![CDATA[В обработке]]></target>
             </trans-unit>
+            <trans-unit id="129" approved="yes">
+                <source><![CDATA[menu.dashboard]]></source>
+                <target><![CDATA[Панель управления]]></target>
+            </trans-unit>
+            <trans-unit id="130" approved="yes">
+                <source><![CDATA[menu.qr_codes]]></source>
+                <target><![CDATA[QR коды]]></target>
+            </trans-unit>
+            <trans-unit id="131" approved="yes">
+                <source><![CDATA[menu.users]]></source>
+                <target><![CDATA[Пользователи]]></target>
+            </trans-unit>
+            <trans-unit id="132" approved="yes">
+                <source><![CDATA[menu.change_requests]]></source>
+                <target><![CDATA[Заявки на изменения]]></target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -521,6 +521,22 @@
                 <source><![CDATA[payment.status.pending]]></source>
                 <target><![CDATA[Pending]]></target>
             </trans-unit>
+            <trans-unit id="129" approved="yes">
+                <source><![CDATA[menu.dashboard]]></source>
+                <target><![CDATA[Dashboard]]></target>
+            </trans-unit>
+            <trans-unit id="130" approved="yes">
+                <source><![CDATA[menu.qr_codes]]></source>
+                <target><![CDATA[QR Codes]]></target>
+            </trans-unit>
+            <trans-unit id="131" approved="yes">
+                <source><![CDATA[menu.users]]></source>
+                <target><![CDATA[Users]]></target>
+            </trans-unit>
+            <trans-unit id="132" approved="yes">
+                <source><![CDATA[menu.change_requests]]></source>
+                <target><![CDATA[Change Requests]]></target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

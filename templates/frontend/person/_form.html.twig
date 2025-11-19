@@ -120,11 +120,11 @@
 
 
             <div class="row mb-3">
-                <div class="col-12 col-md">
-                    <label>
+                <div class="col-12">
+                    <label class="form-label">
                         {{ 'label.person.avatar'|trans }}
                     </label>
-                    <div id="js--upload-person-avatar"></div>
+                    <div id="js--upload-person-avatar" style="min-height: 200px;"></div>
                 </div>
             </div>
 
@@ -136,11 +136,11 @@
         <h6>{{ 'person.form.step2'|trans }}</h6>
         <section>
             <div class="row">
-                <div class="col-12 col-md">
-                    <label>
+                <div class="col-12">
+                    <label class="form-label">
                         {{ 'label.person.photo_arhive'|trans }}
                     </label>
-                    <div id="js--upload-person-photo-arhive"></div>
+                    <div id="js--upload-person-photo-arhive" style="min-height: 200px;"></div>
                 </div>
             </div>
         </section>
@@ -217,23 +217,14 @@
         <!-- Step 5 -->
         <h6>{{ 'person.form.step5'|trans }}</h6>
         <section>
-            <div class="row m3-3">
-                <div class="row mb-3">
-                    {# Debug theme field #}
-                    {% set thema_field = form.thema %}
-                    <div class="col-12">
-                        {{ form_label(thema_field) }}
-                        {{ form_widget(thema_field, {
-                            'attr': {
-                                'class': 'form-select js--select-memory-thema form-control-md required',
-                                'data-placeholder': 'Выберите оформление страницы'
-                            }
-                        }) }}
-                        {{ form_errors(thema_field) }}
-                    </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    {{ form_row(form.thema) }}
                 </div>
-                <div class="row mb-3">
-                    <img class="js--preview-memory-bg" src="/option-bg/v-1.jpg"  alt="memory bg" />
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <img class="js--preview-memory-bg" src="/option-bg/v-1.jpg" alt="memory bg" style="max-width: 100%; max-height: 400px; object-fit: contain; border: 1px solid #ddd; border-radius: 8px;" />
                 </div>
             </div>
         </section>
@@ -241,6 +232,9 @@
         {{ form_end(form) }}
     </div>
 </div>
+
+{{ include('frontend/person/_select2_init.html.twig') }}
+
 <!-- ---------------------
                             end Steps
 ---------------- -->

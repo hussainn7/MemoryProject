@@ -140,7 +140,7 @@ class PersonEditType extends AbstractType
                 'expanded' => false,
                 'multiple' => false,
                 'attr' => [
-                    'class' => 'form-control js--select-memory-thema form-control-md',
+                    'class' => 'form-control js--select-memory-thema form-control-md select2',
                 ]
             ])
             ->add('politics', CheckboxType::class, [

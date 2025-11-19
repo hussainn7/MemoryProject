@@ -1,0 +1,67 @@
+<script>
+// Force proper Select2 initialization on theme selector
+(function() {
+    'use strict';
+    
+    function forceInitThemeSelect() {
+        var themeSelect = $('.js--select-memory-thema');
+        
+        if (!themeSelect.length) {
+            console.log('Theme select element not found');
+            return;
+        }
+        
+        console.log('Initializing theme select...');
+        
+        // Always destroy any existing Select2 instance first
+        try {
+            if (themeSelect.data('select2')) {
+                console.log('Destroying existing Select2 instance');
+                themeSelect.select2('destroy');
+            }
+        } catch (e) {
+            console.log('No existing Select2 to destroy');
+        }
+        
+        // Remove any orphaned Select2 containers
+        themeSelect.next('.select2-container').remove();
+        
+        // Make sure the select is visible
+        themeSelect.show();
+        
+        // Initialize Select2 with proper settings
+        try {
+            themeSelect.select2({
+                placeholder: 'Выберите оформление страницы',
+                theme: 'bootstrap-5',
+                allowClear: false,
+                width: '100%',
+                dropdownAutoWidth: true,
+                minimumResultsForSearch: Infinity // Disable search box
+            });
+            
+            console.log('Select2 initialized successfully');
+            
+            // Force it to be interactive
+            themeSelect.prop('disabled', false);
+            
+        } catch (e) {
+            console.error('Failed to initialize Select2:', e);
+        }
+    }
+    
+    // Try multiple times to ensure proper initialization
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(forceInitThemeSelect, 100);
+            setTimeout(forceInitThemeSelect, 800);
+            setTimeout(forceInitThemeSelect, 1500);
+        });
+    } else {
+        setTimeout(forceInitThemeSelect, 100);
+        setTimeout(forceInitThemeSelect, 800);
+        setTimeout(forceInitThemeSelect, 1500);
+    }
+})();
+</script>
+

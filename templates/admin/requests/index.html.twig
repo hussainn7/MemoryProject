@@ -30,6 +30,7 @@
                             <th>Статус</th>
                             <th>Сообщение</th>
                             <th>Вложения</th>
+                            <th>Действия</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -51,6 +52,16 @@
                                             —
                                         {% endif %}
                                     </td>
+                                    <td>
+                                        <div class="d-flex flex-column gap-2">
+                                            <a href="{{ path('person_code', {uuid: r.uuid}) }}" target="_blank" class="btn btn-sm btn-primary">
+                                                <i class="ti ti-eye"></i> Просмотреть
+                                            </a>
+                                            {# <a href="{{ path('edit_person_page', {uuid: r.uuid}) }}" class="btn btn-sm btn-success">
+                                                <i class="ti ti-edit"></i> Редактировать
+                                            </a> #}
+                                        </div>
+                                    </td>
                                 </tr>
                             {% else %}
                                 <tr>
@@ -62,7 +73,17 @@
                                     </td>
                                     <td>{{ r.requesterName }}</td>
                                     <td>{{ r.requesterEmail }}</td>
-                                    <td><span class="badge bg-info">{{ r.status }}</span></td>
+                                    <td>
+                                        {% if r.status == 'pending' %}
+                                            <span class="badge bg-warning text-dark">Ожидает</span>
+                                        {% elseif r.status == 'reviewed' %}
+                                            <span class="badge bg-info">Просмотрено</span>
+                                        {% elseif r.status == 'completed' %}
+                                            <span class="badge bg-success">Выполнено</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">{{ r.status }}</span>
+                                        {% endif %}
+                                    </td>
                                     <td class="text-truncate" style="max-width: 300px;">{{ r.message ?? '—' }}</td>
                                     <td>
                                         {% if r.attachments and r.attachments|length %}
@@ -73,11 +94,36 @@
                                             —
                                         {% endif %}
                                     </td>
+                                    <td>
+                                        {% if r.memory and r.memory.status %}
+                                            <div class="d-flex flex-column gap-2">
+                                                <a href="{{ path('person_code', {uuid: r.memory.status.uuid}) }}" target="_blank" class="btn btn-sm btn-primary">
+                                                    <i class="ti ti-eye"></i> Просмотреть
+                                                </a>
+                                                {# <a href="{{ path('edit_person_page', {uuid: r.memory.status.uuid}) }}" class="btn btn-sm btn-success">
+                                                    <i class="ti ti-edit"></i> Редактировать
+                                                </a> #}
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        Изменить статус
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item" href="{{ path('admin_change_request_status', {id: r.id, status: 'reviewed'}) }}">✓ Просмотрено</a></li>
+                                                        <li><a class="dropdown-item" href="{{ path('admin_change_request_status', {id: r.id, status: 'completed'}) }}">✓ Выполнено</a></li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li><a class="dropdown-item" href="{{ path('admin_change_request_status', {id: r.id, status: 'pending'}) }}">↻ Вернуть</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        {% else %}
+                                            <span class="text-muted">—</span>
+                                        {% endif %}
+                                    </td>
                                 </tr>
                             {% endif %}
                         {% else %}
                             <tr>
-                                <td colspan="7" class="text-center text-muted py-4">Заявок пока нет</td>
+                                <td colspan="8" class="text-center text-muted py-4">Заявок пока нет</td>
                             </tr>
                         {% endfor %}
                         </tbody>

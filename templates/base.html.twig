@@ -62,6 +62,18 @@
     {{ encore_entry_script_tags('plugins') }}
 
     {{ include('partials/_flash_messages.html.twig') }}
+    
+    <script>
+        // Initialize Bootstrap 5 dropdowns
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof bootstrap !== 'undefined' && bootstrap.Dropdown) {
+                var dropdownElementList = [].slice.call(document.querySelectorAll('[data-bs-toggle="dropdown"]'));
+                dropdownElementList.forEach(function (dropdownToggleEl) {
+                    new bootstrap.Dropdown(dropdownToggleEl);
+                });
+            }
+        });
+    </script>
 {% endblock %}
 {# it's not mandatory to set the timezone in localizeddate(). This is done to
    avoid errors when the 'intl' PHP extension is not available and the application

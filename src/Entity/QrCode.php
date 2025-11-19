@@ -19,7 +19,7 @@ class QrCode implements TimestampableInterface
     private ?int $id = null;
 
    // #[ORM\Column(type: "integer", length: 9, unique:true, columnDefinition: "INT(9)")]
-    #[ORM\Column(type: "text", length: 9, unique: true, nullable: true)]
+    #[ORM\Column(type: "string", length: 191, unique: true, nullable: true)]
     private ?string $label = null;
 
     #[ORM\Column(type: 'text', nullable: true)]

@@ -13,6 +13,15 @@ var config = {};
 var popper = global.popper = require('popper.js');
 var bootstrap = global.bootstrap = require('bootstrap');
 var bs4notify = global.bs4notify = require('bootstrap4-notify');
+
+// Initialize Bootstrap dropdowns
+document.addEventListener('DOMContentLoaded', function() {
+    // Enable all dropdowns
+    var dropdownElementList = [].slice.call(document.querySelectorAll('[data-bs-toggle="dropdown"]'));
+    dropdownElementList.map(function (dropdownToggleEl) {
+        return new bootstrap.Dropdown(dropdownToggleEl);
+    });
+});
 var elementResizeDetectorMaker = global.elementResizeDetectorMaker = require("element-resize-detector");
 var toaster = global.toastr = require('toastr');
 import Swal from 'sweetalert2';

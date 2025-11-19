@@ -76,6 +76,28 @@ class PersonController extends AbstractController
 
                 $form->handleRequest($request);
 
+                if ($form->isSubmitted() && !$form->isValid()) {
+                    // Log form validation errors
+                    $errors = [];
+                    foreach ($form->getErrors(true) as $error) {
+                        $errors[] = $error->getMessage();
+                    }
+                    $this->logger->error('Form validation failed', [
+                        'errors' => $errors,
+                        'formData' => $request->request->all(),
+                    ]);
+                    
+                    // Return JSON response with errors for AJAX requests
+                    if ($request->isXmlHttpRequest() || $request->headers->get('Content-Type') === 'application/json') {
+                        return $this->json([
+                            'success' => false,
+                            'error' => 'Validation failed',
+                            'errors' => $errors,
+                            'message' => implode(', ', $errors)
+                        ], Response::HTTP_BAD_REQUEST);
+                    }
+                }
+
                 if ($form->isSubmitted() && $form->isValid()) {
 
                     $payload = $request->getPayload()->all();
@@ -492,17 +514,33 @@ class PersonController extends AbstractController
         $currentUser = $this->getUser();
 
         if ($currentUser === null) {
+            $this->logger->warning('Edit page: User not logged in');
             return $this->render('frontend/error/index.html.twig');
         }
 
         $qrCode = $this->qrCodeRepository->findOneBy(['uuid' => $uuid]);
 
+        if ($qrCode === null) {
+            $this->logger->error('Edit page: QR code not found', ['uuid' => $uuid]);
+            return $this->render('frontend/error/index.html.twig');
+        }
 
         $clientQrCodes = $currentUser->getQrCodeClient()->toArray();
 
+        // Check if user is admin or manager - they can edit any page
+        $isAdmin = in_array('ROLE_ADMIN', $currentUser->getRoles(), true) 
+                   || in_array('ROLE_MANAGER', $currentUser->getRoles(), true);
 
-        //check if user have access to this data
-        if (in_array($qrCode, $clientQrCodes)) {
+        $this->logger->info('Edit page access check', [
+            'uuid' => $uuid,
+            'userEmail' => $currentUser->getEmail(),
+            'userRoles' => $currentUser->getRoles(),
+            'isAdmin' => $isAdmin,
+            'isOwner' => in_array($qrCode, $clientQrCodes, true),
+        ]);
+
+        //check if user have access to this data (owner or admin)
+        if (in_array($qrCode, $clientQrCodes, true) || $isAdmin) {
 
             $memory = $qrCode->getMemory();
 
@@ -610,6 +648,12 @@ class PersonController extends AbstractController
 
         }
 
+        // Access denied
+        $this->logger->warning('Edit page: Access denied', [
+            'uuid' => $uuid,
+            'userEmail' => $currentUser->getEmail(),
+            'userRoles' => $currentUser->getRoles(),
+        ]);
 
         return $this->render('frontend/error/index.html.twig');
 

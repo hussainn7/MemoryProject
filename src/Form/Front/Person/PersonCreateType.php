@@ -167,7 +167,7 @@ class PersonCreateType extends AbstractType
                 'multiple' => false,
                 'data' => $this->memoryThemaRepository->findOneBy(['thema' => '1']), // Set default theme
                 'attr' => [
-                    'class' => 'form-control js--select-memory-thema form-control-md',
+                    'class' => 'form-control js--select-memory-thema form-control-md select2',
                 ]
             ])
             ->add('politics', CheckboxType::class, [
