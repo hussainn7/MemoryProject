@@ -84,6 +84,14 @@
             aria-hidden="true"
           >
 
+          {# FRONT FOG FROM RIGHT #}
+          <img
+            src="{{ asset('images/front-fog.png') }}"
+            alt=""
+            class="na-angel__fog-front"
+            aria-hidden="true"
+          >
+
           {# main statue #}
           <img
             src="{{ asset('images/angel.png') }}"
@@ -453,6 +461,9 @@
     }
 
     /* ---------- RIGHT / ANGEL ---------- */
+    .col-lg-6.position-relative{
+      overflow:visible !important;
+    }
     .na-angel{
       position:relative;
       min-height:640px;
@@ -461,6 +472,7 @@
       align-items:flex-end;
       justify-content:center;
       z-index:3;
+      overflow:visible;
     }
 
     .na-angel__circle{
@@ -487,35 +499,67 @@
 
     .na-angel__fog{
       position:absolute;
-      bottom:0;
+      bottom:-60px;
       left:50%;
+      right:auto;
       transform:translateX(-50%);
-      width:100vw;
-      min-width:100%;
+      width:200vw;
+      margin-left:-50vw;
       height:auto;
-      max-height:45vh;
+      max-height:50vh;
       object-fit:cover;
       object-position:center bottom;
-      opacity:.92;
+      opacity:.85;
       pointer-events:none;
       user-select:none;
       z-index:1;
       mask-image:linear-gradient(to top,
         rgba(0,0,0,1) 0%,
-        rgba(0,0,0,1) 30%,
-        rgba(0,0,0,.9) 60%,
-        rgba(0,0,0,.5) 85%,
+        rgba(0,0,0,1) 25%,
+        rgba(0,0,0,.8) 50%,
+        rgba(0,0,0,.4) 75%,
         rgba(0,0,0,0) 100%
       );
       -webkit-mask-image:linear-gradient(to top,
         rgba(0,0,0,1) 0%,
-        rgba(0,0,0,1) 30%,
-        rgba(0,0,0,.9) 60%,
-        rgba(0,0,0,.5) 85%,
+        rgba(0,0,0,1) 25%,
+        rgba(0,0,0,.8) 50%,
+        rgba(0,0,0,.4) 75%,
         rgba(0,0,0,0) 100%
       );
       -webkit-backface-visibility:hidden;
       backface-visibility:hidden;
+    }
+
+    /* right-side drifting fog above background but behind angel */
+    .na-angel__fog-front{
+      position:absolute;
+      top:18%;
+      right:5%;
+      width:85%;
+      height:auto;
+      opacity:.8;
+      pointer-events:none;
+      user-select:none;
+      z-index:3; /* ABOVE circle, BELOW angel */
+
+      /* fully visible near the angel (left), softly disappears to the right */
+      mask-image:linear-gradient(
+        to right,
+        rgba(0,0,0,1) 0%,
+        rgba(0,0,0,.95) 25%,
+        rgba(0,0,0,.7) 50%,
+        rgba(0,0,0,.3) 75%,
+        rgba(0,0,0,0) 100%
+      );
+      -webkit-mask-image:linear-gradient(
+        to right,
+        rgba(0,0,0,1) 0%,
+        rgba(0,0,0,.95) 25%,
+        rgba(0,0,0,.7) 50%,
+        rgba(0,0,0,.3) 75%,
+        rgba(0,0,0,0) 100%
+      );
     }
 
     /* badge */
@@ -900,11 +944,11 @@
     .na-footer-fog{
       position:absolute;
       left:50%;
-      bottom:-40px;
+      bottom:-120px;
       transform:translateX(-50%);
       width:140%;
       max-width:1700px;
-      height:360px;
+      height:400px;
       background:url('{{ asset('images/footer-fog.png') }}') center bottom / cover no-repeat;
       opacity:.9;
       pointer-events:none;
@@ -913,15 +957,17 @@
       mask-image:linear-gradient(
         to top,
         rgba(0,0,0,1) 0%,
-        rgba(0,0,0,1) 35%,
-        rgba(0,0,0,.6) 65%,
+        rgba(0,0,0,1) 30%,
+        rgba(0,0,0,.65) 60%,
+        rgba(0,0,0,.25) 80%,
         rgba(0,0,0,0) 100%
       );
       -webkit-mask-image:linear-gradient(
         to top,
         rgba(0,0,0,1) 0%,
-        rgba(0,0,0,1) 35%,
-        rgba(0,0,0,.6) 65%,
+        rgba(0,0,0,1) 30%,
+        rgba(0,0,0,.65) 60%,
+        rgba(0,0,0,.25) 80%,
         rgba(0,0,0,0) 100%
       );
     }
